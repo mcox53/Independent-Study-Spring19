@@ -2,4 +2,4 @@
 
 Repo for my independent study in MCUs and FPGAs. Will be separate folders for Vivado, Atmel studio, etc..
 
-To learn more. Check out my website [Link](https://mwcox.me)
+To learn more check out my website: [Link](https://mwcox.me)
