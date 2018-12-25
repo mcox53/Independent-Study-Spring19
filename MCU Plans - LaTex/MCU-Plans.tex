@@ -1,0 +1,213 @@
+\documentclass[12pt,a4paper,oneside,notitlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=magenta,
+	urlcolor=blue
+}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\pagenumbering{gobble}
+\doublespacing
+
+\begin{document}
+\begin{center}
+\large \textbf{Independent Study Plan - Microcontrollers}
+\end{center}
+
+\subsection*{Introduction}
+\paragraph{}
+
+This is just a simple draft of what I plan to do next semester. This is all subject to change and serves as a basic guide to keep me on track.
+
+\subsection*{Method}
+
+The ideal progression of a week from start to finish will hopefully resemble the following:
+\begin{enumerate}
+	\item Conduct a reading of the planned material.
+	\begin{enumerate}
+		\item Take notes on the planned readings.
+		\item Convert notes into Anki Flashcards.
+	\end{enumerate}
+	\item Begin lab exercises or open ended project.
+	\item Refer back to material or online sources for help, if needed.
+	\begin{enumerate}
+		\item Make notes of specific solutions.
+		\item Convert this insight to Anki Flashcards.
+	\end{enumerate}
+	\item Finish lab exercises or open ended project.
+	\item Quick report + document week for website.
+\end{enumerate}
+
+\subsection*{Topics}
+
+\begin{enumerate}
+	\item Foundational Skills
+		\begin{enumerate}
+			\item Computer Architecture
+				\begin{enumerate}
+					\item Review of Computer Architecture
+					\item AVR Assembly
+					\item ARM Assembly?
+				\end{enumerate}
+			\item Advanced C Programming Topics
+				\begin{enumerate}
+					\item Pointers
+					\item Memory Management
+					\item Threads, management and synchronization
+				\end{enumerate}
+			\item Optimization
+				\begin{enumerate}
+					\item Optimizing programs for low power applications
+					\item Optimizing programs for speed
+				\end{enumerate}
+		\end{enumerate}
+	\item Advanced Peripherals
+		\begin{enumerate}
+			\item Motor Controllers
+			\item Wi-Fi and RF Controllers
+			\item Bluetooth Low Energy (BLE)
+			\item USB interfaces
+		\end{enumerate}
+	\item Real Time Operating Systems (RTOS)
+		\begin{enumerate}
+			\item Scheduling \& management
+			\item Inner-workings 
+			\item I honestly know so little about how these work I will have to do more research.
+		\end{enumerate}
+\end{enumerate}
+
+Just reaching even one or two of these topics next semester would be make this a net positive for me.
+
+\subparagraph*{Books}
+\begin{enumerate}
+	\item J. L. Hennessy, D.A. Patterson. \textit{Computer Architecture: A Quantitative Approach. 5th Edition.}
+	\item D.M. Harris, S.L Harris. \textit{Digital Design and Computer Architecture. 2nd Edition.}
+	\item E. White. \textit{Making Embedded Systems. 1st Edition.}
+	\item A. Tannebaum. \textit{Modern Operating Systems. 4th Edition}.
+	\item D. Butenhof. \textit{Programming with POSIX Threads. 1st Edition}.
+	\item A. Kelley, I. Pohl. \textit{A Book on C. 4th Edition}.
+	\item E.A. Lee, S.A. Seshia. \textit{Introduction to Embedded Systems: A Cyber-Physical Systems Approach. 2nd Edition.}
+	\item J. Cooling. \textit{Real-Time Operating Systems: Book 1 - The Theory}
+	\item J. Cooling. \textit{Real-Time Operating Systems: Book 2 - The Practice}
+\end{enumerate}
+
+\subparagraph*{Links}
+\begin{itemize}
+	\item \href{http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-0856-AVR-Instruction-Set-Manual.pdf}{AVR Instruction Set Manual}
+	\item \href{http://aosabook.org/en/index.html}{The Architecture of Open Source Applications}
+	\item \href{https://lars-lab.jpl.nasa.gov/JPL_Coding_Standard_C.pdf}{JPL Institutional Coding Standard for the C Programming Language}
+	\item \href{https://leanpub.com/patternsinc}{Patterns in C}
+	\item \href{https://www.microchip.com/webdoc/AVRLibcReferenceManual/index.html}{AVR Libc Reference Manual}
+	
+	
+\end{itemize}
+
+
+\subsection*{Schedule}
+
+Here is a short schedule I came up with for the semester. This is just a rough schedule and I expect that I will veer from it in many different ways. I purposely gave this a good amount of structure in the beginning of the semester so I get in the habit of actually doing the work before making it more open ended.
+
+\noindent 
+Week 1, 1/7/19 - 1/13/19:
+\begin{itemize}
+\item Topic: Computer Architecture
+\item Reading: 
+	\begin{itemize}
+		\item Hennessy and Patterson, Ch. 2: Instruction Level Parallelism
+		\item Hennessy and Patterson, Ch. 3: Limits on Instruction Level Parallelism
+		\item Harris, Ch. 6: Architecture
+		\item Harris, Ch. 7: Microarchitecture
+	\end{itemize}
+\item Lab Exercises: Assembly Basics: Setup and Blinking LEDs
+\end{itemize}
+Week 2, 1/14/19 - 1/20/19:
+\begin{itemize}
+\item Topic: Computer Architecture Cont.
+\item Reading:
+	\begin{itemize}
+		\item Hennessy and Patterson, Ch. 4: Multiprocessors and Thread-Level Parallelism
+		\item Hennessy and Patterson, Ch. 5: Memory Hierarchy Design
+		\item Harris, Ch. 8: Memory and I/O Systems
+		\item Atmel AVR Instruction Set Manual
+		\item Other Misc. Articles
+	\end{itemize}
+\item Lab Exercises: Assembly Basics: Registers and Port Operations
+\end{itemize}
+Week 3 (Week 1 of Semester), 1/21/19 - 1/27/19:
+\begin{itemize}
+\item Topic: C Programming Review
+\item Reading:
+	\begin{itemize}
+		\item Kelley and Pohl, Ch. 1: An Overview of C
+		\item Kelley and Pohl, Ch. 2: Lexical Elements, Operators, and the C Systems
+		\item Kelley and Pohl, Ch. 3: The Fundamental Data Types
+		\item White, Ch. 2: Creating a System Architecture
+	\end{itemize}
+\item Lab Exercises: Recreate ECE 3411 program in assembly
+\end{itemize}
+Week 4 (Week 2 of Semester), 1/28/19 - 2/3/19:
+\begin{itemize}
+\item Topic: C Programming Cont.
+\item Reading:
+	\begin{itemize}
+		\item Kelley and Pohl, Ch. 4: Flow of Control
+		\item Kelley and Pohl, Ch. 5: Functions
+		\item Kelley and Pohl, Ch. 6: Arrays, Pointers and Strings
+		\item White, Ch. 3: Getting the Code Working
+		\item Other Misc. Articles
+		\item TBD
+	\end{itemize}
+\item Lab Exercises: Make files and using gdb
+\end{itemize}
+Week 5 (Week 3 of Semester), 2/4/19 - 2/10/19:
+\begin{itemize}
+\item Topic: C Programming Cont.
+\item Reading:
+	\begin{itemize}
+		\item Kelley and Pohl, Ch. 7: Bitwise Operators and Enumeration Types
+		\item Kelley and Pohl, Ch. 8: The Preprocessor
+		\item Kelley and Pohl, Ch. 9: Structures and Unions
+		\item White, Ch. 5: Task Management
+		\item TBD
+	\end{itemize}
+\item Lab Exercises: Make files and using gdb continued
+\end{itemize}
+
+Week 6 (Week 4 of Semester), 2/11/19 - 2/17/19:
+\begin{itemize}
+\item Topic: Basic Operating System Principles
+\item Reading:
+	\begin{itemize}
+		\item Tannebaum, Ch. 2: Processes and Threads
+		\item Tannebaum, Ch. 3: Memory Management
+		\item Sauermann and Thelen, Ch. 2: Concepts
+		\item Sauermann and Thelen, Ch. 3: Kernel Implementation
+	\end{itemize}
+\item Lab Exercises: Implement basic tasks on Atmega328p with FreeRTOS
+\end{itemize}
+
+Week 7 - Week 10 (Week 5 - 8 of Semester), 2/18/19 - 3/17/19:
+\begin{itemize}
+\item Topic: Real Time Operating Systems
+\item Reading:
+	\begin{itemize}
+		\item Cooling, Book 1
+		\item Cooling, Book 2
+		\item TBD
+	\end{itemize}
+\item Lab Exercises: FreeRTOS on AVR and ARM
+\end{itemize}
+
+Week 11 - Week 14 (Week 9 - 12 of Semester), 3/18/19 - 4/17/19:
+\begin{itemize}
+\item Topic: Bluetooth Low Energy (BLE) \& Misc. Topics
+\item Reading: TBD
+\item Lab Exercises: TBD
+\end{itemize}
+
+At this point in the semester I suspect that I will be busy wrapping up my Senior Design project, working on completing the car for Formula SAE or involved with a side project from previous weeks. It doesn't make much sense to add much more because I probably won't get to it all.
+
+\end{document}
