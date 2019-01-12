@@ -65,18 +65,60 @@ architecture behavioral of spi is
 	
 	signal HOLD_buf		: std_logic;
 	signal DONE_buf		: std_logic;
+	
+	signal shft_cnt		: integer;
 
 begin
-	
-	spi_reg_process : process(SPI_CLK)
+
+	shift_out : process(SPI_CLK, RESETN)
 	begin
-		if(SPI_CLK'event and SPI_CLK = '1') then
+		if(RESETN = '0') then
+			shft_cnt 		<= 7;
+			MOSI_shft_com 	<= '0';
+			MOSI_shft_en 	<= '0';
+		elsif(SPI_CLK'event and SPI_CLK = '1') then
+			if(MOSI_shft_en = '1') then
+				if(shft_cnt >= 0) then
+					MOSI_buf <= DATA_IN_BUF(shft_cnt);
+					shft_cnt <= shft_cnt - 1;
+				elsif(shft_cnt < 0) then
+					MOSI_shft_en <= '0';
+					MOSI_shft_com <= '1';
+					shft_cnt <= 7;
+				end if;
+			else
+				MOSI_buf <= '0';
+		end if;
+	
+	IO_reg : process(SPI_CLK)
+	begin
+		if (SPI_CLK'event and SPI_CLK = '1') then
 			
-			SCLK <= SCLK_buf;
-			MOSI <= MOSI_buf;
-			SS <= SS_buf;
-			MISO_buf <= MISO;
+			SCLK 		<= SCLK_buf;
+			MOSI 		<= MOSI_buf;
+			SS 			<= SS_buf;
+			MISO_buf 	<= MISO;
+			
+		end if;
+	end process;
 		
+	fast_reg : process(INT_CLK)
+	begin
+		if(RESETN = '0') then
+			SCLK_out_en <= '0';
+			SS_out_en 	<= '0';
+			REG_DATA_IN <= '0';
+			
+		elsif(INT_CLK'event and INT_CLK = '1') then
+			
+			HOLD_buf <= HOLD;
+			DONE <= DONE_buf;
+			
+			if(REG_DATA_IN = '1') then
+				DATA_IN_BUF <= S_DATA;
+				REG_DATA_IN <= '0';
+			end if;
+			
 			if(SCLK_out_en = '1') then
 				SCLK_buf <= SPI_CLK;
 			else
@@ -88,19 +130,7 @@ begin
 			else
 				SS_buf <= '1';
 			end if;
-	end process;
-	
-	int_reg_process : process(INT_CLK)
-	begin
-		if(INT_CLK'event and INT_CLK = '1') then
-			
-			HOLD_buf <= HOLD;
-			DONE <= DONE_buf;
-			
-			if(REG_DATA_IN = '1') then
-				DATA_IN_BUF <= S_DATA;
-				REG_DATA_IN <= '0';
-			end if;
+				
 		end if;
 	end process;
 
@@ -126,6 +156,7 @@ begin
 				REG_DATA_IN <= '1';
 				NEXT_STATE <= EN;
 			when EN =>
+				REG_DATA_IN <= '0';
 				SS_out_en <= '1';
 				SCLK_out_en <= '1';
 			when DATA =>
@@ -133,8 +164,7 @@ begin
 				
 				if(MOSI_shft_com = '1') then
 					NEXT_STATE <= SENT;
-					MOSI_shft_com = '0';
-					MOSI_shft_en = '0';
+					MOSI_shft_com <= '0';
 				else
 					NEXT_STATE <= DATA;
 				end if;
@@ -145,10 +175,11 @@ begin
 					NEXT_STATE <= IDLE;
 					SS_out_en <= '0';
 					SCLK_out_en <= '0';
+					DONE_buf <= '1'
 				end if;
 		end case;
 				
-	sclk_gen : entity work.clock_divider
+	spi_clk : entity work.clock_divider
 		generic map(divisor => 100)
 		port map(
 			clk_in => SYS_CLK,
