@@ -1,6 +1,6 @@
 -- Date: 1/12/18
 -- Author: M. Cox
--- Description: Basic SPI Library
+-- Description: Basic SPI module
 -- This module only sends and receives data, control is separate
 
 -- Some info about the design:
@@ -47,6 +47,8 @@ architecture behavioral of spi is
 	-- 25 MHz for internal use
 	signal INT_CLK	: std_logic;
 	signal SPI_CLK	: std_logic;
+	
+	signal R_N      : std_logic;
 
 	signal SCLK_buf : std_logic;
 	signal MISO_buf : std_logic;
@@ -65,17 +67,21 @@ architecture behavioral of spi is
 	
 	signal HOLD_buf		: std_logic;
 	signal DONE_buf		: std_logic;
+	signal TX_EN_buf    : std_logic;
+	signal RX_EN_buf    : std_logic;
 	
 	signal shft_cnt		: integer;
 
 begin
 
-	shift_out : process(SPI_CLK, RESETN)
+    R_N <= RESETN;
+
+	shift_out : process(SPI_CLK, R_N)
 	begin
-		if(RESETN = '0') then
-			shft_cnt 		<= 7;
-			MOSI_shft_com 	<= '0';
-			MOSI_shft_en 	<= '0';
+		if(R_N = '0') then
+			shft_cnt <= 7;
+			MOSI_shft_com <= '0';
+			MOSI_shft_en <= '0';
 		elsif(SPI_CLK'event and SPI_CLK = '1') then
 			if(MOSI_shft_en = '1') then
 				if(shft_cnt >= 0) then
@@ -104,17 +110,19 @@ begin
 		end if;
 	end process;
 		
-	fast_reg : process(INT_CLK)
+	fast_reg : process(INT_CLK, R_N)
 	begin
-		if(RESETN = '0') then
+		if(R_N = '0') then
 			SCLK_out_en <= '0';
-			SS_out_en 	<= '0';
+			SS_out_en <= '0';
 			REG_DATA_IN <= '0';
 			
 		elsif(INT_CLK'event and INT_CLK = '1') then
 			
 			HOLD_buf <= HOLD;
 			DONE <= DONE_buf;
+			TX_EN_buf <= TX_EN;
+			RX_EN_buf <= RX_EN;
 			
 			if(REG_DATA_IN = '1') then
 				DATA_IN_BUF <= S_DATA;
@@ -136,16 +144,16 @@ begin
 		end if;
 	end process;
 
-	state_transition : process(INT_CLK)
+	state_transition : process(INT_CLK, R_N)
 	begin
-		if(RESETN = '0') then
+		if(R_N = '0') then
 			CURRENT_STATE <= IDLE;
 		elsif(INT_CLK'event and INT_CLK = '1') then
 			CURRENT_STATE <= NEXT_STATE;
 		end if;
 	end process;
 	
-	state_comb : process(CURRENT_STATE)
+	state_comb : process(CURRENT_STATE, INT_CLK)
 	begin
 		case CURRENT_STATE is
 			when IDLE =>
@@ -161,6 +169,7 @@ begin
 				REG_DATA_IN <= '0';
 				SS_out_en <= '1';
 				SCLK_out_en <= '1';
+				NEXT_STATE <= DATA;
 			when DATA =>
 				MOSI_shft_en <= '1';
 				
@@ -186,7 +195,7 @@ begin
 		generic map(divisor => 100)
 		port map(
 			clk_in => SYS_CLK,
-			reset => RESETN,
+			reset => R_N,
 			clk_out => SPI_CLK
 			);
 			
@@ -194,7 +203,7 @@ begin
 		generic map(divisor => 4)
 		port map(
 			clk_in => SYS_CLK,
-			reset => RESETN,
+			reset => R_N,
 			clk_out => INT_CLK
 			);
 
