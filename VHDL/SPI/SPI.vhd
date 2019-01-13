@@ -88,7 +88,9 @@ begin
 				end if;
 			else
 				MOSI_buf <= '0';
+			end if;
 		end if;
+	end process;
 	
 	IO_reg : process(SPI_CLK)
 	begin
@@ -170,16 +172,17 @@ begin
 				end if;
 			when SENT =>
 				if(HOLD_buf <= '1') then
-					NEXT_STATE <= REG_DATA_IN;
+					NEXT_STATE <= REG;
 				else
 					NEXT_STATE <= IDLE;
 					SS_out_en <= '0';
 					SCLK_out_en <= '0';
-					DONE_buf <= '1'
+					DONE_buf <= '1';
 				end if;
 		end case;
+	end process;
 				
-	spi_clk : entity work.clock_divider
+	spi_clk_gen : entity work.clock_divider
 		generic map(divisor => 100)
 		port map(
 			clk_in => SYS_CLK,
